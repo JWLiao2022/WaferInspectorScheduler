@@ -12,6 +12,10 @@ class Widget(QWidget):
         #Initialise the UI
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
+
+        # Set dateTimeEdit to current date and time
+        self.ui.dateTimeEdit.setDateTime(QDateTime.currentDateTime())
+
         #Disable the start scheduling button and the stop scheduling button.
         self.ui.pushButton_StartScheduling.setEnabled(False)
         self.ui.pushButton_StopScheduling.setEnabled(False)
@@ -46,9 +50,10 @@ class Widget(QWidget):
 
     @Slot()
     def afterFirstTimeConnection(self):
-        self.ui.pushButton_W3Connect.setEnabled(False)
+        self.ui.pushButton_MW3Connect.setEnabled(False)
         self.ui.pushButton_MW3Connect.setText('Connected')
         self.ui.lineEdit_MW3PortNumber.setEnabled(False)
+        self.ui.pushButton_StartScheduling.setEnabled(True)
     
     @Slot()
     def reportCurrentStatus(self, currentStatus):
@@ -64,22 +69,20 @@ class Widget(QWidget):
         #print(f"Scheduling will start in {diff_seconds} seconds.")
         #self.currentStatus = f"Scheduling will start in {diff_seconds} seconds."
         #self.ui.label_CurrentStatus.setText(self.currentStatus)
+         #Start a countdown timer
+        self.timer = CountdownTimer(diff_seconds)
         #Start a new thread for the countdown timer
         self.timerThread = QThread()
         self.timer.moveToThread(self.timerThread)
         self.timerThread.started.connect(self.timer.start)
-        #Start a countdown timer
-        self.timer = CountdownTimer(diff_seconds)
+       
         self.timer.messageUpdate.connect(self.updateCountdownMessage)
         self.timer.timeUp.connect(self.executeScheduling)
+
         self.timerThread.start()
         #Disable the start scheduling button and enable the stop scheduling button
         self.ui.pushButton_StartScheduling.setEnabled(False)
         self.ui.pushButton_StopScheduling.setEnabled(True)
-        #When the measurement is finished, clean up the timer and the thread
-        self.timer.finished.connect(self.timerThread.quit)
-        self.timer.finished.connect(self.timer.deleteLater)
-        self.timerThread.finished.connect(self.timerThread.deleteLater)
     
     @Slot(str)
     def updateCountdownMessage(self, message):
@@ -95,10 +98,14 @@ class Widget(QWidget):
         #For example, sending commands to MW3 via self.newConnection
         self.newConnection.sendACommand('WaferInspectorStart()')
         #After scheduling is done, re-enable the start scheduling button and disable the stop scheduling button
-        self.ui.pushButton_StartScheduling.setEnabled(True)
+        self.ui.pushButton_StartScheduling.setEnabled(false)
         self.ui.pushButton_StopScheduling.setEnabled(False)
         #self.timerThread.quit()
         #self.timerThread.wait()
+        #When the measurement is finished, clean up the timer and the thread
+        self.timer.finished.connect(self.timerThread.quit)
+        self.timer.finished.connect(self.timer.deleteLater)
+        self.timerThread.finished.connect(self.timerThread.deleteLater)
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
