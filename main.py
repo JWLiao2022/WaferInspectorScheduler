@@ -98,7 +98,7 @@ class Widget(QWidget):
         #For example, sending commands to MW3 via self.newConnection
         self.newConnection.sendACommand('WaferInspectorStart()')
         #After scheduling is done, re-enable the start scheduling button and disable the stop scheduling button
-        self.ui.pushButton_StartScheduling.setEnabled(false)
+        self.ui.pushButton_StartScheduling.setEnabled(False)
         self.ui.pushButton_StopScheduling.setEnabled(False)
         #self.timerThread.quit()
         #self.timerThread.wait()
