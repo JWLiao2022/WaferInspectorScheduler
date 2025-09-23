@@ -23,29 +23,29 @@ class Ui_Widget(object):
     def setupUi(self, Widget):
         if not Widget.objectName():
             Widget.setObjectName(u"Widget")
-        Widget.resize(214, 360)
-        self.widget = QWidget(Widget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(20, 10, 171, 331))
-        self.verticalLayout_3 = QVBoxLayout(self.widget)
+        Widget.resize(178, 360)
+        self.layoutWidget = QWidget(Widget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(0, 10, 171, 331))
+        self.verticalLayout_3 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.groupBox = QGroupBox(self.widget)
+        self.groupBox = QGroupBox(self.layoutWidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.layoutWidget = QWidget(self.groupBox)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 30, 144, 61))
-        self.verticalLayout = QVBoxLayout(self.layoutWidget)
+        self.layoutWidget1 = QWidget(self.groupBox)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 30, 144, 61))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.layoutWidget)
+        self.label = QLabel(self.layoutWidget1)
         self.label.setObjectName(u"label")
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.lineEdit_MW3PortNumber = QLineEdit(self.layoutWidget)
+        self.lineEdit_MW3PortNumber = QLineEdit(self.layoutWidget1)
         self.lineEdit_MW3PortNumber.setObjectName(u"lineEdit_MW3PortNumber")
 
         self.horizontalLayout.addWidget(self.lineEdit_MW3PortNumber)
@@ -53,7 +53,7 @@ class Ui_Widget(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.pushButton_MW3Connect = QPushButton(self.layoutWidget)
+        self.pushButton_MW3Connect = QPushButton(self.layoutWidget1)
         self.pushButton_MW3Connect.setObjectName(u"pushButton_MW3Connect")
 
         self.verticalLayout.addWidget(self.pushButton_MW3Connect)
@@ -61,25 +61,25 @@ class Ui_Widget(object):
 
         self.verticalLayout_3.addWidget(self.groupBox)
 
-        self.groupBox_2 = QGroupBox(self.widget)
+        self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.widget1 = QWidget(self.groupBox_2)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(0, 20, 151, 83))
-        self.verticalLayout_2 = QVBoxLayout(self.widget1)
+        self.layoutWidget2 = QWidget(self.groupBox_2)
+        self.layoutWidget2.setObjectName(u"layoutWidget2")
+        self.layoutWidget2.setGeometry(QRect(0, 20, 151, 83))
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.dateTimeEdit = QDateTimeEdit(self.widget1)
+        self.dateTimeEdit = QDateTimeEdit(self.layoutWidget2)
         self.dateTimeEdit.setObjectName(u"dateTimeEdit")
 
         self.verticalLayout_2.addWidget(self.dateTimeEdit)
 
-        self.pushButton_StartScheduling = QPushButton(self.widget1)
+        self.pushButton_StartScheduling = QPushButton(self.layoutWidget2)
         self.pushButton_StartScheduling.setObjectName(u"pushButton_StartScheduling")
 
         self.verticalLayout_2.addWidget(self.pushButton_StartScheduling)
 
-        self.pushButton_StopScheduling = QPushButton(self.widget1)
+        self.pushButton_StopScheduling = QPushButton(self.layoutWidget2)
         self.pushButton_StopScheduling.setObjectName(u"pushButton_StopScheduling")
 
         self.verticalLayout_2.addWidget(self.pushButton_StopScheduling)
@@ -87,11 +87,14 @@ class Ui_Widget(object):
 
         self.verticalLayout_3.addWidget(self.groupBox_2)
 
-        self.groupBox_3 = QGroupBox(self.widget)
+        self.groupBox_3 = QGroupBox(self.layoutWidget)
         self.groupBox_3.setObjectName(u"groupBox_3")
         self.label_CurrentStatus = QLabel(self.groupBox_3)
         self.label_CurrentStatus.setObjectName(u"label_CurrentStatus")
         self.label_CurrentStatus.setGeometry(QRect(10, 30, 151, 31))
+        self.label_CurrentStatus_2 = QLabel(self.groupBox_3)
+        self.label_CurrentStatus_2.setObjectName(u"label_CurrentStatus_2")
+        self.label_CurrentStatus_2.setGeometry(QRect(10, 60, 151, 31))
 
         self.verticalLayout_3.addWidget(self.groupBox_3)
 
@@ -102,7 +105,7 @@ class Ui_Widget(object):
     # setupUi
 
     def retranslateUi(self, Widget):
-        Widget.setWindowTitle(QCoreApplication.translate("Widget", u"Widget", None))
+        Widget.setWindowTitle(QCoreApplication.translate("Widget", u"Wafer Spection Timer", None))
         self.groupBox.setTitle(QCoreApplication.translate("Widget", u"MW3 connection", None))
         self.label.setText(QCoreApplication.translate("Widget", u"Port", None))
         self.lineEdit_MW3PortNumber.setText(QCoreApplication.translate("Widget", u"8888", None))
@@ -112,5 +115,6 @@ class Ui_Widget(object):
         self.pushButton_StopScheduling.setText(QCoreApplication.translate("Widget", u"Stop!", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Widget", u"Current status", None))
         self.label_CurrentStatus.setText(QCoreApplication.translate("Widget", u"Waiting for scheduling...", None))
+        self.label_CurrentStatus_2.setText(QCoreApplication.translate("Widget", u"Standing by...", None))
     # retranslateUi
 

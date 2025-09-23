@@ -10,6 +10,7 @@ def seconds_to_hms(seconds):
 class CountdownTimer(QThread):
     timeUp = Signal()
     messageUpdate = Signal(str)
+    timeForPreparation = Signal()
 
     def __init__(self, seconds, parent=None):
         super().__init__(parent)
@@ -27,8 +28,16 @@ class CountdownTimer(QThread):
             print(msg, end="\r")
             self.messageUpdate.emit(msg)
             self.remaining -= 1
+            if self.remaining == 180:  # 3 minutes before launching the measurement
+                self.startPreparation()
         else:
             self.timer.stop()
-            print("Countdown finished!")
-            self.messageUpdate.emit("Countdown finished!")
+            msg = "Countdown finished!"
+            print(msg)
+            self.messageUpdate.emit(msg)
             self.timeUp.emit()
+    
+    def startPreparation(self):
+        self.timeForPreparation.emit()
+    
+

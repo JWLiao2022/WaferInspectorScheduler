@@ -6,17 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>214</width>
+    <width>178</width>
     <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Widget</string>
+   <string>Wafer Spection Timer</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>0</x>
      <y>10</y>
      <width>171</width>
      <height>331</height>
@@ -72,7 +72,7 @@
       <property name="title">
        <string>Scheduler</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -119,6 +119,19 @@
        </property>
        <property name="text">
         <string>Waiting for scheduling...</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_CurrentStatus_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Standing by...</string>
        </property>
       </widget>
      </widget>

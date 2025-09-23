@@ -27,6 +27,8 @@ class Widget(QWidget):
         self.ui.pushButton_StartScheduling.clicked.connect(self.startScheduling)
         #Initial the global parameter
         self.currentStatus = ''
+        self.currentAction = ''
+        
 
     def estabilishAConnection(self):
         #Start a new connection to MW3
@@ -75,14 +77,21 @@ class Widget(QWidget):
         self.timerThread = QThread()
         self.timer.moveToThread(self.timerThread)
         self.timerThread.started.connect(self.timer.start)
+        #When the measurement is finished, clean up the timer and the thread
+        self.timer.finished.connect(self.timerThread.quit)
+        self.timer.finished.connect(self.timer.deleteLater)
+        self.timerThread.finished.connect(self.timerThread.deleteLater)
        
         self.timer.messageUpdate.connect(self.updateCountdownMessage)
         self.timer.timeUp.connect(self.executeScheduling)
+        self.timer.timeForPreparation.connect(self.preparationForWaferInspection)
 
         self.timerThread.start()
         #Disable the start scheduling button and enable the stop scheduling button
         self.ui.pushButton_StartScheduling.setEnabled(False)
         self.ui.pushButton_StopScheduling.setEnabled(True)
+
+        
     
     @Slot(str)
     def updateCountdownMessage(self, message):
@@ -91,21 +100,42 @@ class Widget(QWidget):
 
     @Slot()
     def executeScheduling(self):
-        print("Executing scheduling now!")
-        self.currentStatus = "Executing scheduling now!"
-        self.ui.label_CurrentStatus.setText(self.currentStatus)
+        print("Executing wafer inspection")
+        self.currentAction = "Executing wafer inspection"
+        self.ui.label_CurrentStatus_2.setText(self.currentAction)
         #Here you can add the code to start the actual scheduling process
         #For example, sending commands to MW3 via self.newConnection
         self.newConnection.sendACommand('WaferInspectorStart()')
         #After scheduling is done, re-enable the start scheduling button and disable the stop scheduling button
         self.ui.pushButton_StartScheduling.setEnabled(False)
-        self.ui.pushButton_StopScheduling.setEnabled(False)
+        self.ui.pushButton_StopScheduling.setEnabled(True)
         #self.timerThread.quit()
         #self.timerThread.wait()
-        #When the measurement is finished, clean up the timer and the thread
-        self.timer.finished.connect(self.timerThread.quit)
-        self.timer.finished.connect(self.timer.deleteLater)
-        self.timerThread.finished.connect(self.timerThread.deleteLater)
+        
+    
+    @Slot()
+    def preparationForWaferInspection(self):
+        print("Autofocusing...")
+        self.currentAction = "Autofocusing..."
+        self.ui.label_CurrentStatus_2.setText(self.currentAction)
+        self.newConnection.sendACommand('DoAutofocus()')
+        print("Refreshing markers...")
+        self.currentAction = "Refreshing markers..."
+        self.ui.label_CurrentStatus_2.setText(self.currentAction)
+        self.newConnection.sendACommand('RefreshMarkers()')
+        print("Transforming coordinates...")
+        self.currentAction = "Transforming coordinates..."
+        self.ui.label_CurrentStatus_2.setText(self.currentAction)
+        self.newConnection.sendACommand('IncludeOffsetCorrection()')
+        self.newConnection.sendACommand('IncludeRotationCorrection()')
+        self.newConnection.sendACommand('IncludeSlopeCorrection()')
+        self.newConnection.sendACommand('ExcludeStretchShearCorrection()')
+        self.newConnection.sendACommand('AlignExpectedToActual()')
+        self.newConnection.sendACommand('MoveToOrigin()')
+        #Updating status
+        print("Preparation done. Waiting for the inspection to start...")
+        self.currentAction = "Preparation done. Waiting for the inspection to start..."
+        self.ui.label_CurrentStatus_2.setText(self.currentAction)
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
